@@ -42,17 +42,13 @@ class App
     { 'Content-Type' => 'text/plain' }
   end
 
-  def status
-    invalid_params.empty? ? 200 : 400 
-  end
-
   def flow
-    if !path_valid? || method_get?
+    if !path_valid? || !method_get?
       not_found
     elsif params_split.all? { |format| @formats_time.key?(format) }
-      [status, content_type, [valid_params]]
+      [200, content_type, [valid_params]]
     else
-      [status, content_type, ["Unknown time format #{invalid_params}"]]
+      [400, content_type, ["Unknown time format #{invalid_params}"]]
     end
   end
 
